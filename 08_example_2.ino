@@ -53,11 +53,9 @@ void loop() {
   Serial.println("");
   if (distance <= 200) {
     analogWrite(9, 225-(distance-100)*(225/100));
-    Serial.println(225-(distance-100)*(225/100));
   }
   else {
     analogWrite(9, (distance-200)*(225/100));
-    Serial.println((distance-200)*(225/100));
   }
   
   // do something here
