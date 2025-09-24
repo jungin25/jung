@@ -32,9 +32,17 @@ void loop() {
   // wait until next sampling time. // polling
   // millis() returns the number of milliseconds since the program started.
   //    will overflow after 50 days.
-  
+  if (millis() < (last_sampling_time + INTERVAL))
+    return;
 
   distance = USS_measure(PIN_TRIG, PIN_ECHO); // read distance
+
+  if (distance <= 200) {
+    analogWrite(9, 225-(distance-100)*(225/100));
+  }
+  else {
+    analogWrite(9, (distance-200)*(225/100));
+  }
 
   if ((distance == 0.0) || (distance > _DIST_MAX)) {
       distance = _DIST_MAX + 10.0;    // Set Higher Value
@@ -43,20 +51,14 @@ void loop() {
       distance = _DIST_MIN - 10.0;    // Set Lower Value
       digitalWrite(PIN_LED, 1);       // LED OFF
   } 
-  if (millis() < (last_sampling_time + INTERVAL))
-    return;
 
   // output the distance to the serial port
   Serial.print("Min:");        Serial.print(_DIST_MIN);
   Serial.print(",distance:");  Serial.print(distance);
   Serial.print(",Max:");       Serial.print(_DIST_MAX);
   Serial.println("");
-  if (distance <= 200) {
-    analogWrite(9, 225-(distance-100)*(225/100));
-  }
-  else {
-    analogWrite(9, (distance-200)*(225/100));
-  }
+  
+  
   
   // do something here
    // Assume that it takes 50ms to do something.
