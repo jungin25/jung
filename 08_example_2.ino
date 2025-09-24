@@ -59,10 +59,6 @@ void loop() {
   Serial.println("");
   
   
-  
-  // do something here
-   // Assume that it takes 50ms to do something.
-  
   // update last sampling time
   last_sampling_time += INTERVAL;
 }
